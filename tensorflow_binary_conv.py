@@ -22,7 +22,7 @@ def train_happy_sad_model():
     class myCallback(tf.keras.callbacks.Callback):
      def on_epoch_end(self, epoch, logs={}):
          if(logs.get('loss')<0.005):
-            print("\nReached 99.8% accuracy so cancelling training!")
+            print("\nReached 99.9% accuracy so cancelling training!")
             self.model.stop_training = True
 
     callbacks = myCallback()
@@ -62,7 +62,7 @@ def train_happy_sad_model():
 
     # Please use a target_size of 150 X 150.
     train_generator = train_datagen.flow_from_directory(
-        '/tmp/happy-or-sad/',  # This is the source directory for training images
+        '/tmp/h-or-s/',  # This is the source directory for training images
         target_size=(150, 150),  # All images will be resized to 150x150
         batch_size=128,
         # Since we use binary_crossentropy loss, we need binary labels
@@ -76,9 +76,7 @@ def train_happy_sad_model():
          train_generator,
           steps_per_epoch=8,  
           epochs=15,
-          verbose=1,
-          validation_data = validation_generator,
-          validation_steps=8, callbacks=[callbacks])
+          verbose=1, callbacks=[callbacks])
     # model fitting
     return history.history['acc'][-1]
     
